@@ -1,0 +1,26 @@
+{% extends 'app/base.html' %}
+{% block title %}Добавить категорию{% endblock %}
+{% block content %}
+    <h2>Добавить категорию</h2>
+    <form method="post" class="category-form">
+        {% csrf_token %}
+        <div class="form-group">
+            {{ form.category.label_tag }}
+            {{ form.category }}
+        </div>
+        <button type="submit" class="add-button">Добавить категорию</button>
+    </form>
+    
+    <h3>Категории, которые уже есть:</h3>
+    <ul>
+        {% for category in existing_categories %}
+        <li>{{ category }}</li>
+        {% empty %}
+        <li>Категорий еще нет.</li>
+        {% endfor %}
+    </ul>
+    
+    <div class="add-data">
+        <a href="{% url 'finances' user.id %}" class="add-button">Назад к финансам</a>
+    </div>
+{% endblock %}

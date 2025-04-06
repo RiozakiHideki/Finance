@@ -1,0 +1,87 @@
+{% extends 'app/base.html' %}
+{% block title %}Финансы{% endblock %}
+{% block content %}
+    {% if error %}
+        <p>{{ error }}</p>
+    {% endif %}
+    <h2>Финансовые данные</h2>
+    
+    <!-- Фильтры -->
+    <div class="try-filters">
+        <form method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit">Применить фильтры</button>
+        </form>
+    </div>
+    
+    <!-- Информация о бюджетах -->
+    <div class="budget-info">
+        <h3>Информация о бюджетах</h3>
+        <ul>
+            {% for budget in user_budgets %}
+                <li>
+                    <strong>{{ budget.name }}:</strong> Баланс: {{ budget.balance }}$
+                    <a href="{% url 'delete_budget_user' user.id budget.name %}" class="delete-button" style="margin-left: 10px">Удалить бюджет</a>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+    
+    <div class="functional-buttons">
+            <!-- Добавление категории -->
+        <div class="add-data">
+            <a href="{% url 'add_category_user' user.id %}" class="add-button">Добавить категорию</a>
+        </div>
+        
+        <!-- Добавление бюджета -->
+        <div class="add-data">
+            <a href="{% url 'add_budget_user' user.id %}" class="add-button">Добавить бюджет</a>
+        </div>
+        
+        <!-- Добавление данных -->
+        <div class="add-data">
+            <a href="{% url 'add_data_user' user.id %}" class="add-button">Добавить данные</a>
+        </div>
+        
+        <!-- График и диаграмма -->
+        <div class="add-data">
+            <a href="{% url 'chart_user' user.id %}" class="add-button">График и диаграмма</a>
+        </div>
+    
+        <!-- Скачивание данных -->
+        <div class="add-data">
+            <a href="{% url 'download_data_user' user.id %}" class="add-button">Скачать данные</a>
+        </div>
+    </div>
+
+    
+    <!-- Таблица транзакций -->
+    <table>
+        <tr>
+            <th>Дата</th>
+            <th>Категория</th>
+            <th>Сумма</th>
+            <th>Бюджет</th>
+            <th style="width: 0">Действия</th>
+        </tr>
+        {% for transaction in finance_data %}
+        <tr>
+            <td>{{ transaction.date }}</td>
+            <td>{{ transaction.category }}</td>
+            <td style="color: {% if transaction.sum > 0 %}green{% else %}red{% endif %};">
+                {% if transaction.sum > 0 %}+{% endif %}{{ transaction.sum }}$
+            </td>
+            <td>{{ transaction.budget }}</td>
+            <td class="edit_button">
+                <a href="{% url 'edit_transaction_user' user.id transaction.id %}">
+                    <button>Редактировать</button>
+                </a>
+                <a href="{% url 'delete_transaction_user' user.id transaction.id %}">
+                    <button>Удалить</button>
+                </a>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+{% endblock %}

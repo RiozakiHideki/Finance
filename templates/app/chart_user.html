@@ -1,0 +1,39 @@
+{% extends 'app/base.html' %}
+{% block title %}Графики и диаграммы{% endblock %}
+{% block content %}
+    <h2>Графики и диаграммы</h2>
+    
+    <!-- Форма для выбора периода и бюджета -->
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Показать графики и диаграммы</button>
+    </form>
+    
+    <!-- График баланса -->
+    {% if chart_balance %}
+        <h3>График баланса</h3>
+        <img src="data:image/png;base64,{{ chart_balance }}" alt="График баланса">
+    {% endif %}
+    
+    <!-- Диаграмма процентного соотношения доходов и расходов -->
+    {% if pie_income_expense %}
+        <h3>Процентное соотношение доходов и расходов</h3>
+        <img src="data:image/png;base64,{{ pie_income_expense }}" alt="Процентное соотношение доходов и расходов">
+    {% endif %}
+    
+    <!-- Диаграмма процентного разделения по категориям доходов -->
+    {% if pie_income_categories %}
+        <h3>Процентное разделение по категориям доходов</h3>
+        <img src="data:image/png;base64,{{ pie_income_categories }}" alt="Процентное разделение по категориям доходов">
+    {% endif %}
+    
+    <!-- Диаграмма процентного разделения по категориям расходов -->
+    {% if pie_expense_categories %}
+        <h3>Процентное разделение по категориям расходов</h3>
+        <img src="data:image/png;base64,{{ pie_expense_categories }}" alt="Процентное разделение по категориям расходов">
+    {% endif %}
+    
+    <!-- Ссылка на возврат к финансам -->
+    <a href="{% url 'finances' user.id %}">Назад к финансам</a>
+{% endblock %}

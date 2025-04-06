@@ -1,0 +1,29 @@
+{% extends 'app/base.html' %}
+{% block title %}Контакты{% endblock %}
+
+{% block content %}
+    <div class="contacts-container">
+        <div class="info-column">
+            <h1>Наши контакты</h1>
+            <div class="contact-info">
+                <p>📞 Телефон: +375 (XXX) XXX-XXX</p>
+                <p>📧 Email: finance.by.vit@yandex.ru</p>
+                <p>📍 Адрес: г. Витебск, ул. Пушкина, д. Колотушкина</p>
+                <p>🕒 Время работы: ежедневно с 7:00 до 20:00</p>
+            </div>
+        </div>
+        
+        <div class="map-container">
+            <div class="yandex-map">
+                <iframe 
+                    src="https://yandex.by/map-widget/v1/?display-text=%D0%A2%D1%83%D0%B0%D0%BB%D0%B5%D1%82&ll=30.205136%2C55.183359&mode=search&oid=162996420849&ol=biz&z=16.49" 
+                    width="100%" 
+                    height="400" 
+                    frameborder="1" 
+                    allowfullscreen="true"
+                    style="position:relative; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+                </iframe>
+            </div>
+        </div>
+    </div>
+{% endblock %}

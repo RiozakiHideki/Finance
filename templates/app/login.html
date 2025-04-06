@@ -1,0 +1,20 @@
+{% extends 'app/base.html' %}
+{% block title %}Вход{% endblock %}
+
+{% block content %}
+    {% if not user.is_authenticated %}
+        <body class="login-page">
+            <h1 class="login-h1">Вход</h1>
+            <form class="login-form" method="post">
+                {% csrf_token %}
+                {{ form.as_p }}  <!-- Отображаем форму -->
+                <button class="login-button" type="submit">Вход</button>
+            </form>
+        </body>
+        
+        {% else %}
+            <p>Вы уже вошли в систему</p>
+            <a href="{% url 'home' %}">На главную</a>
+    {% endif %}
+    
+{% endblock %}

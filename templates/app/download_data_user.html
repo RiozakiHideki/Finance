@@ -1,0 +1,15 @@
+{% extends 'app/base.html' %}
+{% block title %}Скачать данные{% endblock %}
+{% block content %}
+    <h2>Скачать данные</h2>
+    
+    <!-- Форма для выбора периода и бюджета -->
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Скачать данные</button>
+    </form>
+    
+    <!-- Ссылка на возврат к финансам -->
+    <a href="{% url 'finances' user.id %}">Назад к финансам</a>
+{% endblock %}

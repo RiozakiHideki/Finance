@@ -1,0 +1,13 @@
+{% extends 'app/base.html' %}
+{% block title %}Добавить данные{% endblock %}
+{% block content %}
+    <h2>Добавить данные</h2>
+    <form method="post" class="category-form">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="add-button">Добавить данные</button>
+    </form>
+    <div class="add-data">
+        <a href="{% url 'finances' user.id %}" class="add-button">Назад к финансам</a>
+    </div>
+{% endblock %}

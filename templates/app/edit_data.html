@@ -1,0 +1,11 @@
+{% extends 'app/base.html' %}
+{% block title %}Редактировать данные{% endblock %}
+{% block content %}
+<h2>Редактировать данные</h2>
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Сохранить</button>
+    <a href="{% url 'try_app' %}" class="cancel-button">Отмена</a>
+</form>
+{% endblock %}

@@ -1,0 +1,55 @@
+{% extends 'app/base.html' %}
+{% block title %}Попробовать{% endblock %}
+{% block content %}
+
+    <div  style="margin-left: 15px; color: #c82333">
+        <p>В тестовой версии нельзя:</p>
+
+        <ul style="list-style-type: decimal; padding: 15px">
+            <li>Просматривать графики и диаграммы</li>
+            <li>Скачивать данные</li>
+            <li>Добавлять свои категории доходов и расходов</li>
+        </ul>
+    
+        <p>Чтобы получить доступ ко всему функционалу, <a href="{% url 'login' %}">Авторизуйтесь</a> или <a href="{% url 'register' %}">Зарегистрируйтесь</a></p>
+
+    </div>
+
+    <div class="try-filters">
+        <form method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit">Применить фильтры</button>
+        </form>
+    </div>
+
+    <div class="add-data">
+        <a href="{% url 'add_data' %}" class="add-button">Добавить данные</a>
+    </div>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Дата</th>
+                <th>Категория</th>
+                <th>Сумма</th>
+                <th style="width: 0">Действия</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for transaction in transactions %}
+            <tr>
+                <td>{{ transaction.date }}</td>
+                <td>{{ transaction.category }}</td>
+                <td style="{% if transaction.type == 'income' %}color: green;{% else %}color: red;{% endif %}">
+                    {% if transaction.type == 'income' %}+{% endif %}{{ transaction.amount }}$
+                </td>
+                <td class="edit_button">
+                    <a href="{% url 'edit_transaction' forloop.counter0 %}"><button>Редактировать</button></a>
+                    <a href="{% url 'delete_transaction' forloop.counter0 %}" onclick="return confirm('Вы уверены?');"><button>Удалить</button></a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}
