@@ -17,7 +17,7 @@ from django.conf import settings
 from django.utils import timezone
 from datetime import datetime, timedelta
 import matplotlib
-matplotlib.use('Agg')  # Используем бэкэнд Agg для генерации изображений без GUI
+matplotlib.use('Agg')  # Используем бэкэнд Agg для генерации изображений без GUI (иначе с некоторой периодичностью выкидывает ошибки)
 import matplotlib.pyplot as plt
 import io
 import base64
@@ -62,13 +62,16 @@ def register(request):
             )
 
             # Отправляем письмо
-            send_mail(
-                'Подтверждение регистрации',
-                f'Для завершения регистрации перейдите по ссылке: {confirmation_url}',
-                settings.EMAIL_HOST_USER,
-                [user.email],
-                fail_silently=False,
-            )
+            try:
+                send_mail(
+                    'Подтверждение регистрации',
+                    f'Для завершения регистрации перейдите по ссылке: {confirmation_url}',
+                    settings.EMAIL_HOST_USER,
+                    [user.email],
+                    fail_silently=False,  # Если произойдет ошибка, метод выбросит исключение
+                )
+            except Exception as e:
+                print(e)
 
             return redirect('registration_pending')  # Новая страница ожидания
 
@@ -122,7 +125,7 @@ def login(request):
 
 def try_app(request):
     if 'transactions' not in request.session:
-        request.session['transactions'] = []
+        request.session['transactions'] = []  # для незарегистрированных пользователей хранение в сессиях
 
     transactions = request.session['transactions']
 
