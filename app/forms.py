@@ -31,8 +31,7 @@ class RegisterForm(UserCreationForm):
             raise ValidationError("Пользователь с таким email уже зарегистрирован.")
         return email
 
-        # Добавляем сохранение неактивного пользователя
-
+    # Добавляем сохранение неактивного пользователя
     def save(self, commit=True):
         user = super().save(commit=False)
         user.is_active = False

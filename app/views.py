@@ -41,6 +41,8 @@ class FinanceDataViewSet(viewsets.ModelViewSet):
     def get_queryset(self):
         return FinanceData.objects.filter(user=self.request.user)
 
+    def perform_create(self, serializer):
+        serializer.save(user=self.request.user)
 
 def register(request):
     if request.method == 'POST':

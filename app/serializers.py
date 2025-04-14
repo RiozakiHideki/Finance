@@ -10,3 +10,4 @@ class FinanceDataSerializer(serializers.ModelSerializer):
     class Meta:
         model = FinanceData
         fields = ['id', 'user', 'date', 'category', 'sum', 'budget']
+        read_only_fields = ['user']
